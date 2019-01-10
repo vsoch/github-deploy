@@ -42,7 +42,7 @@ git init && \
     git rm -rf .
 
     # Add the deploy files to the PWD, an empty github pages
-    for DEPLOY_FILE in "${DEPLOY_FILES[@]}"
+    for DEPLOY_FILE in ${DEPLOY_FILES}
         do
         if [ ! -f "${DEPLOY_FILE}" ]; then
             filename=$(basename "${DEPLOY_FILE}")
