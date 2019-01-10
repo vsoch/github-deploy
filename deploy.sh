@@ -16,6 +16,13 @@ for DEPLOY_FILE in $("${DEPLOY_FILES}")
     fi
 done
 
+# Copy the entire Github workspace somewhere else
+
+GHPAGES=$(mktemp -d -t ghpages.XXX)
+mv "${GITHUB_WORKSPACE}" "${GHPAGES}"
+mkdir -p "${GITHUB_WORKSPACE}"
+mv "${GITHUB_PAGES}/.git" "${GITHUB_WORKSPACE}"
+
 # Only deploy on change to master (or used specified branch)
 GITHUB_BRANCH="${GITHUB_BRANCH:-refs/heads/master}"
 
@@ -43,7 +50,8 @@ git init && \
     for DEPLOY_FILE in "${DEPLOY_FILES[@]}"
         do
         if [ ! -f "${DEPLOY_FILE}" ]; then
-            cp ${DEPLOY_FILE} .
+            filename=$(basename "${DEPLOY_FILE}")
+            cp "${GHPAGES}/${filename}" .
         fi
         git add $(basename "${DEPLOY_FILE}");
     done
