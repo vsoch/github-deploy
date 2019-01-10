@@ -9,7 +9,7 @@
 DEPLOY_FILES="${1:-}"
 GHPAGES=$(mktemp -d -t ghpages.XXX)
 
-for DEPLOY_FILE in "${DEPLOY_FILES}"; do
+for DEPLOY_FILE in ${DEPLOY_FILES}; do
     if [ ! -f "${DEPLOY_FILE}" ]; then
         echo "Cannot find ${DEPLOY_FILE}";
         exit 1;
