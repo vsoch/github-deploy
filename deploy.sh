@@ -7,21 +7,17 @@
 # with Github actions, so the various GITHUB_* variables should be defined.
 
 DEPLOY_FILES="${1:-}"
+GHPAGES=$(mktemp -d -t ghpages.XXX)
 
 for DEPLOY_FILE in $("${DEPLOY_FILES}")
     do
         if [ ! -f "${DEPLOY_FILE}" ]; then
-        echo "Cannot find ${DEPLOY_FILE}";
-        exit 1;
-    fi
+            echo "Cannot find ${DEPLOY_FILE}";
+            exit 1;
+        else
+            mv "${DEPLOY_FILE}" "${GHPAGES}/"
+        fi
 done
-
-# Copy the entire Github workspace somewhere else
-
-GHPAGES=$(mktemp -d -t ghpages.XXX)
-mv "${GITHUB_WORKSPACE}" "${GHPAGES}"
-mkdir -p "${GITHUB_WORKSPACE}"
-mv "${GITHUB_PAGES}/.git" "${GITHUB_WORKSPACE}"
 
 # Only deploy on change to master (or used specified branch)
 GITHUB_BRANCH="${GITHUB_BRANCH:-refs/heads/master}"
