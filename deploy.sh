@@ -9,14 +9,13 @@
 DEPLOY_FILES="${1:-}"
 GHPAGES=$(mktemp -d -t ghpages.XXX)
 
-for DEPLOY_FILE in $("${DEPLOY_FILES}")
-    do
-        if [ ! -f "${DEPLOY_FILE}" ]; then
-            echo "Cannot find ${DEPLOY_FILE}";
-            exit 1;
-        else
-            mv "${DEPLOY_FILE}" "${GHPAGES}/"
-        fi
+for DEPLOY_FILE in "${DEPLOY_FILES}"; do
+    if [ ! -f "${DEPLOY_FILE}" ]; then
+        echo "Cannot find ${DEPLOY_FILE}";
+        exit 1;
+    else
+        mv "${DEPLOY_FILE}" "${GHPAGES}/"
+    fi
 done
 
 # Only deploy on change to master (or used specified branch)
